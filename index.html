@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Something interesting</title>
+        <!-- including references and libraries  -->
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <!--script src="js/controller.js" type="text/javascript"></script-->
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class = "col-md-3">
+                <img alt = "logo" style = "height:50px; width:110px" src = "http://perccom.univ-lorraine.fr/files/2013/06/Logo_perccom-300x147.jpg" />
+            </div>
+            <div class = "col-md-6">
+                &nbsp;
+            </div>
+            <div class = "col-md-3" style = "align:right">
+                <a href="index.html" style = "font-size:16px;color:#fff;padding-right:10px">Home</a>
+                <a href="about.html" style = "font-size:16px;color:#fff;padding-right:10px">About</a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container-fluid" style="padding-top:20px; margin-top:20px">
+            <div class="row">
+                <div class="col col-lg-12">
+                    <div class="container-fluid col col-lg-9">
+                        <div class="row">
+                            <div class="col">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Construct Addressing
+                                    </div>
+                                    <div class="panel-body">
+                                        <!-- input fields -->
+                                        <div class="col-md-12" style = "padding:5px">
+                                            <div class = "col-md-3 input-group-lg">
+                                                <span class="" style="font-size: small">Size of data chunk</span>
+                                            </div>
+                                            <div class = "col-md-9 input-group-lg">
+                                                <input type="number" style="font-size: small" class="form-control" placeholder="Size of each data chunk" id = "addressSize" min = "1" max = "10000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style = "padding:5px">
+                                            <div class = "col-md-3 input-group-lg">
+                                                <span class="" style="font-size: small">Number of chunks</span>
+                                            </div>
+                                            <div class = "col-md-9 input-group-lg">
+                                                <input type="number" style="font-size: small" class="form-control" placeholder="Number of chunks" id = "maxChunks" min = "1" max = "10000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style = "padding:5px">
+                                            <div class = "col-md-3 input-group-lg">
+                                                <span class="" style="font-size: small">Hamming Distance</span>
+                                            </div>
+                                            <div class = "col-md-9 input-group-lg">
+                                                <input type="number" style="font-size: small" class="form-control" placeholder="Value of Hamming Distance" id = "hammingThreshold" min = "5" max = "5">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style = "padding:5px">
+                                            <div class = "col-md-3 input-group-lg">
+                                                <span class="" style="font-size: small">Q Threshold</span>
+                                            </div>
+                                            <div class = "col-md-9 input-group-lg">
+                                                <input type="number" style="font-size: small" class="form-control" placeholder="Value of threshold" id = "storageThreshold" min = "-30" max = "30">
+                                            </div>
+                                        </div>
+                                        <!-- input button -->
+                                        <p align="center">
+                                            <span class="input-group-btn">
+                                                <button class="btn-lg btn-outline-info" type="button" id = "configureButton">Create Addressing Space </button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- div row -->
+                        <!-- second panel for search and insert -->
+                        <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="panel panel-primary col-lg-6" style = "padding:2px">
+                                        <div class="panel-heading">
+                                            Insert
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <textarea class="form-control" style= "font-size: small" rows="9" id="generatedChunk" placeholder="Insert value..." disabled></textarea>
+                                            </div>
+                                            <div class="row justify-content-md-center">
+                                                <p align="center">
+                                                    <span class="input-group-btn" style = "padding:1px">
+                                                        <button class="btn-lg btn-outline-info" type="button" id = "generateChunkBtn" style = "padding:2px" disabled>Generate </button>
+                                                    </span>
+                                                </p>
+                                                <p align="center">
+                                                    <span class="input-group-btn" style = "padding:1px">
+                                                        <button class="btn-lg btn-outline-info" type="button" id = "storeChunkBtn" style = "padding:2px" disabled>Save </button>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Search panel-->
+                                    <div class="panel panel-primary col-lg-6" style = "padding:2px">
+                                        <div class="panel-heading">
+                                            Search
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <textarea class="form-control" style= "font-size: small" rows="4" id="chunkToSearch" placeholder="Search..." disabled></textarea>
+                                            </div>
+                                            <p align="center">
+                                                <span class="input-group-btn" style = "padding:2px">
+                                                    <button class="btn-lg btn-outline-info" type="button" id = "searchChunkBtn"   style = "padding:3px" disabled>Search </button>
+                                                </span>
+                                            </p>
+                                            <div class="form-group">
+                                                <textarea class="form-control" style= "font-size: small" rows="4" id="bestMatch" placeholder="Result..." readonly=true></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- collapse panel heading -->
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Data generated panel -->
+                    <div class="container-fluid col col-lg-3">
+                        <div class="col">
+                            <div class="panel panel-primary" style = "padding:0px">
+                                <div class="panel-heading">
+                                    Generated Data
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <textarea class="form-control" style= "font-size: small" rows="24" id="chunkInfo" placeholder="Result..." readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+        
+    <script>
+        function releaseOtherElements(){
+            $("#generatedChunk").prop("disabled", false);;
+            $("#generateChunkBtn").prop("disabled", false);
+            $("#storeChunkBtn").prop("disabled", false);
+            $("#chunkToSearch").prop("disabled", false);
+            $("#searchChunkBtn").prop("disabled", false);
+        }
+
+        function notificationMessage(title, message) {
+            toastr.info(message, title);
+        }
+
+        var trackerChunk;
+        var sizeOfChunk;
+        var numberOfNodes = 1;
+        var searchResponseBuffer = [];
+        var addressesCreated = [];
+        var storageBlocks = [];
+        var chunkTracker;
+        var qValue;
+        var chunkSize;
+        var searchQuery;
+        var hammingThreshold = 0;
+        var numberOfChunks = 0;
+
+
+        $(document).ready(function(){
+            const socketUrl = "http://" + window.location.hostname + ":3000";
+            socket = io(socketUrl);
+
+            var map = new Object();
+
+            socket.on('latestCount', function(data){
+                console.log(data);
+                var countOnIp = data.split("#")[1];
+                var ip = data.split("#")[0];
+                map[ip]=countOnIp;
+                console.log(map);
+                var sum = 0;
+                for( var el in map ) {
+                    if( map.hasOwnProperty( el ) ) {
+                        sum += parseFloat( map[el] );
+                    }
+                }
+                number_Nodes=sum;
+                console.log(number_Nodes);
+            });
+
+            socket.on('totalNodes',function(data){
+                console.log(data);
+                number_Nodes = data.length
+            });
+
+            socket.on('storageRequest', function(data){
+                var noToGenerate = 1;
+                console.log("Storage request ----> " + data)
+                createdChunk = convertStringToArray(data.generatedChunk);
+                storeChunk(createdChunk);
+                console.log("Storage request Received");
+            });
+
+	    socket.on('searchRequest',function(data){
+                chunkToSearch = convertStringToArray(data.chunkToSearch);
+                response = searchForChunk(chunkToSearch);
+                console.log("In search request worker with chunk:");
+                console.log(data + " -- " + response[1]);
+                if (response[0]) {
+                    query = {
+                        cmd: "searchResponse",
+                        id: data.id,
+                        chunkToSearch: response[1].toString()
+                    };
+                    //data.chunkToSearch = data.chunkToSearch.toString();
+                    socket.emit('searchResponse', query);
+                } else {
+                    console.log("Search failed in worker");
+                    empty = new Int8Array(chunkSize);
+                    query = {
+                        cmd: "searchResponse",
+                        id: data.id,
+                        chunkToSearch: empty
+                    };
+                    //data.chunkToSearch = data.chunkToSearch.toString();
+                    socket.emit('searchResponse', query);
+                }
+                notificationMessage("Search", "Request sent to peers for search");
+            });
+
+            socket.on('searchResponse', function(data) {
+                console.log("Got a response from a peer" + data);
+		    console.log(data);
+                searchResponseBuffer.push(convertStringToArray(data.chunkToSearch));
+                console.log(number_Nodes + " nodes connected currently vs response buffer size "+ searchResponseBuffer.length);
+                if (searchResponseBuffer.length === (number_Nodes)) {
+                    console.log("in serach response " + searchResponseBuffer);
+                    currentChunk = binarizeChunk(sumChunksPositionwise(searchResponseBuffer));
+			console.log("Current chunk is -- " + currentChunk);
+                    $('#bestMatch').val(currentChunk);
+			console.log("going to handleSearchResponse with " + trackerChunk + " -- "  +currentChunk);
+                    response = handleSearchResponse(trackerChunk, currentChunk);
+			console.log("Clearing search response buffer");
+                    searchResponseBuffer = [];
+			console.log("cleared buffer " + searchResponseBuffer);
+                    trackerChunk = currentChunk;
+                    if (response == "converged") {
+                        notificationMessage("search","converged");
+                        $('#bestMatch').val("Converged - " + currentChunk);   
+                        return;
+                    } else if (response == "diverged") {
+                        notificationMessage("Search", "Diverged");
+                        $('#bestMatch').val("Diverged");
+                        return;
+                    } else {
+                        jsonReq = {
+                            cmd: "search_request",
+                            id: socket.id,
+                            chunkToSearch: currentChunk,
+                        };
+                        jsonReq.chunkToSearch = currentChunk.toString();
+			var tempStore = searchForChunk(chunkToSearch);
+                	searchResponseBuffer.push(convertStringToArray(tempStore[1].toString()));
+                        socket.emit("searchChunk", jsonReq);
+                    }
+                } 
+            });
+
+            $('#configureButton').click(function() {
+                var maxChunks = $('#maxChunks').val();
+                hammingThreshold = $('#hammingThreshold').val();
+                var maxStorageThreshold = $('#storageThreshold').val();
+                var minStorageThreshold = maxStorageThreshold - (maxStorageThreshold * 2);
+                sizeOfChunk = $('#addressSize').val();
+                var storageThreshold = [minStorageThreshold, maxStorageThreshold];
+                qValue = storageThreshold;
+                numberOfChunks = maxChunks;
+                chunkSize = sizeOfChunk;
+                createAddressing(sizeOfChunk, maxChunks);
+                releaseOtherElements();
+                notificationMessage('Storage', "Created " + maxChunks+ " chunks\nChunk size " + sizeOfChunk + " \nHamming threshold - " + hammingThreshold + "\nQ value " + storageThreshold);
+                return false;
+            });
+
+            $('#generateChunkBtn').click(function() {
+                createdChunk = createChunk(sizeOfChunk);
+                $('#generatedChunk').val(createdChunk); 
+                return false;
+            });
+
+            $('#storeChunkBtn').click(function() {
+                var noToGenerate = 1;
+                generatedChunk =convertStringToArray($('#generatedChunk').val()); 
+                jsonReq = {
+                    cmd: "storeChunk",
+                    noToGenerate: noToGenerate,
+                    generatedChunk: createdChunk,
+                };
+                console.log("Storage request Received");
+                jsonReq.generatedChunk = $('#generatedChunk').val();
+                socket.emit('storeChunk', jsonReq);
+                storeChunk(createdChunk);
+                $("#generatedChunk").val("");
+                return false;
+            });
+
+            $('#searchChunkBtn').click(function() {
+                var chunkToSearch = convertStringToArray($('#chunkToSearch').val());
+                trackerChunk = chunkToSearch;
+                if (trackerChunk.length != sizeOfChunk) {
+                    return false;
+                }
+                jsonReq = {
+                    cmd: "searchChunk",
+                    id: socket.id,
+                    chunkToSearch: chunkToSearch,
+                };
+                jsonReq.chunkToSearch = $('#chunkToSearch').val();
+                response = searchForChunk(chunkToSearch);
+		searchResponseBuffer.push(convertStringToArray(response[1].toString()));
+                socket.emit('searchChunk', jsonReq);
+                console.log("Beginning search");
+                return false;
+            });
+        });
+    
+        function createChunk(chunkSize) {
+            chunk = new Int8Array(chunkSize);
+            if($('#generatedChunk').val() != ""){
+                returnedVal = convertStringToBinary($('#generatedChunk').val());
+                for(var i = 0; i < returnedVal.length; i++){
+                    chunk[i] = returnedVal[i];
+                }
+            }else{
+                for (var i = 0; i < chunk.length; i++) {
+                    chunk[i] = Math.round(Math.random());
+                }        
+            }
+            return chunk;
+        }
+
+        function convertStringToBinary(stringToConvert) {
+            var output = "";
+            for (var i = 0; i < stringToConvert.length; i++) {
+                output += stringToConvert[i].charCodeAt(0).toString(2) + " ";
+            }
+            return output;
+        }
+
+        function convertStringToArray(inputString) {
+            return new Int8Array(inputString.toString().split(','));
+        }
+
+        function sumChunksPositionwise(chunks) {
+            bipolarChunk = new Int8Array(sizeOfChunk);
+            for (var chunk of chunks) {
+                for (var i = 0; i < chunk.length; i++) {
+                    bipolarChunk[i] += chunk[i];
+                }
+            }
+            return bipolarChunk;
+        }
+
+        function binarizeChunk(chunk) {
+            binaryChunk = new Int8Array(chunk.length);
+            for (var i = 0; i < chunk.length; i++) {
+                if (chunk[i] < 0) {
+                    binaryChunk[i] = 0;
+                } else { 
+                    binaryChunk[i] = 1;
+                }
+            }
+            return binaryChunk;
+        }
+
+        function handleSearchResponse(previousChunk, currentChunk) {
+		console.log("In handle search response");
+            var distance = hammingDistance(previousChunk, currentChunk);
+            console.log("Distance between " + previousChunk + "and "+currentChunk + " is " + distance);
+            if (distance == 0) {
+                return "converged";
+            } else if (distance == (sizeOfChunk / 2)) {
+                return "diverged";
+            } else {
+                return distance;  
+            }
+        }
+
+        function hammingDistance(address, data) {
+            var distance = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (address[i] === data[i]) {
+                    continue
+                } else {
+                    distance += 1;
+                }
+            }
+            return distance;
+        }        
+        
+        function createAddressing(chunkSize, numberOfChunks) {
+            addressesCreated = [];
+            storageBlocks = [];
+            for (i = 0; i < numberOfChunks; i++) {
+                sdmAddress = new Int8Array(chunkSize);
+                sdmStore = new Int8Array(chunkSize);
+                chunkTracker = new Int8Array(numberOfChunks);
+
+                for (var j = 0; j < chunkSize; j++) {
+                    sdmAddress[j] = Math.round(Math.random());
+                }
+                console.log(sdmAddress + " -- " + sdmStore);
+                addressesCreated.push(sdmAddress);
+                storageBlocks.push(sdmStore);
+            }
+        }
+
+        function storeChunk(chunk) {
+            console.log("In store chunk -- " + chunk);
+            for (var i = 0; i < addressesCreated.length; i++) {
+            console.log("Loop running for address " + addressesCreated[i] + hammingDistance(addressesCreated[i], chunk));
+                if (hammingDistance(addressesCreated[i], chunk) <= hammingThreshold) {
+            console.log("hamming distance breached for address " + addressesCreated[i]);
+                    chunkTracker[i] = 1;
+                    if(checkCounterThreshold(storageBlocks[i], chunk)){
+                        console.log("updating sdmStores");
+                        for (var j = 0; j < chunk.length; j++) {
+                            if (chunk[j] == 1) {
+                                storageBlocks[i][j] += 1;
+                            } else {
+                                storageBlocks[i][j] -= 1;
+                            }
+                        }
+                    }else{
+                        console.log("threshold reached");
+                    }
+                } 
+            }
+            getAllChunks(storageBlocks);
+        }
+        
+        function getAllChunks(data){
+            var temp = "";
+            var sizeOfChunks = $('#addressSize').val();
+            for(var i = 0; i < data.length; i++){
+                temp = temp + data[i] + "\n";
+            }
+            $("#chunkInfo").val(temp);  
+        }
+
+        function checkCounterThreshold(sdmStore, chunk){
+            var status = 0;
+            for(var i = 0; i < sdmStore.length; i++){
+                var currentVal = 0;
+                if(chunk[i] == 1){
+                    currentVal = sdmStore[i] + 1;
+                }else{
+                    currentVal = sdmStore[i] - 1;
+                }
+                if(currentVal >= qValue[0] && currentVal <= qValue[1]){
+                    status++;
+                }
+            }
+            if(status == sdmStore.length){
+                return true;
+            }
+            return false;
+        }
+
+        function searchForChunk(chunk) {
+            searchResponse = new Int8Array(chunkSize);
+            var searchPassed = false;
+            for (var i = 0; i < addressesCreated.length; i++) {
+                if (hammingDistance(addressesCreated[i], chunk) <= hammingThreshold  && chunkTracker[i] == 1) {
+                    searchPassed = true;
+                    for (var j = 0; j < chunkSize; j++) {
+                        searchResponse[j] += storageBlocks[i][j];
+                    }
+                }  
+            }
+	console.log(searchPassed + " -- " + searchResponse)
+            return [searchPassed, searchResponse];
+        }
+
+        function hammingDistance(address, data) {
+            var distance = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (address[i] != data[i]) {
+                    distance += 1;
+                }
+            }
+            return distance;
+        }
+    </script>
+</html>

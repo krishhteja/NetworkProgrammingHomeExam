@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class = "col-md-3">
+            <img alt = "logo" style = "height:50px; width:110px" src = "http://perccom.univ-lorraine.fr/files/2013/06/Logo_perccom-300x147.jpg" />
+        </div>
+        <div class = "col-md-6">
+            &nbsp;
+        </div>
+        <div class = "col-md-3" style = "align:right">
+            <a href="index.html" style = "font-size:16px;color:#fff;padding-right:10px">Home</a>
+            <a href="about.html" style = "font-size:16px;color:#fff;padding-right:10px">About</a>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<div class="container-fluid" align="center" >
+    <div class="row row justify-content-md-center" id="secondRow" >
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: larger">
+
+                        What is SDM (Sparse Distributed Memory) ?
+
+                </div>
+                <div class="panel-body">
+
+                        <div class="panel-body">
+                            <p class="text-justify" style="font-size: large">
+                                SDM is a generalized RAM for long (e.g., 1,000 bit) binary words.
+                                These words serve as both addresses to and data for the memory.
+                                The main attribute of the memory is sensitivity to similarity,
+                                meaning that a word can be read back not only by giving the original
+                                write address but also by giving one close to it,
+                                as measured by the number of mismatched bits.
+                            </p>
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid" align="center" >
+    <div class="row row justify-content-md-center" id="secondRow" >
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: larger">
+
+                    Architecture
+
+                </div>
+                <div class="panel-body">
+
+                    <div class="panel-body">
+                        <img src="images/architecture.jpg">
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid" align="center" >
+    <div class="row row justify-content-md-center" id="secondRow" >
+        <div class="col-lg-9">
+            <div class="panel panel-default" id="secondPanel">
+                <div class="panel-heading" id="secondHeading">
+                    <button class="btn btn-outline-info btn-lg btn-group-lg " data-toggle="collapse" data-target="#content">
+                        Java Mini Project
+                    </button>
+                </div>
+                <div class="panel-body" id="secondBody">
+                    <div class="collapse" id="content">
+
+                        <div class="panel-body">
+                            <p class="text-justify" style="font-size: large">
+                                To design and implement a distributed networking system implementing a special
+                                kind of storage 2 . This storage will back up and restore chunks of X bits of data, where X is
+                                a configurable parameter, which can take any values. Your implementation will be tested
+                                on X equal 1000 bit, 10000 bits, 100000 bits. The size of data chunks is configured during
+                                system initialization and remains unchanged during the system’s lifetime.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
